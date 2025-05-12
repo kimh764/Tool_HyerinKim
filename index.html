@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Hangul Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+
+</head>
+<body class="h-screen w-screen overflow-hidden">
+  <div class="grid grid-cols-[250px_1fr] h-full">
+    <!-- Sidebar -->
+    <aside class="border-r border-black p-4 flex flex-col text-sm overflow-hidden">
+      <div class="overflow-y-auto h-full pr-2">
+      <button id="aboutBtn" class="font-bold mb-2 focus:outline-none">[About]</button>
+        
+       
+        <!-- Modal -->
+        <div id="aboutModal" class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center hidden z-50">
+          <div class="bg-[#f5ff82] border border-black rounded-lg shadow-lg w-96 p-4 text-left relative">
+            <button id="closeModal" class="absolute top-2 right-2 text-sm px-2 py-1 border border-black rounded hover:bg-black hover:text-white">X</button>
+            <h2 class="text-lg font-bold mb-2">Hangul Tool</h2>
+            <p class="text-sm leading-relaxed font-mono">
+             Hyerin made This tool is designed to help you explore and combine Hangul consonants and vowels. 
+              Click to build combinations, study shapes, and generate posters.
+            </p>
+          </div>
+        </div>
+
+        
+        <p class="uppercase text-xs mt-4">Grid size</p>
+        <div class="flex flex-col gap-1 items-start">
+          <div class="flex gap-2 items-center">
+            <label class="text-xs">Rows:</label>
+            <input id="rowsInput" type="number" value="40" min="1" max="100" class="w-12 text-xs border px-1" />
+            <label class="text-xs">Cols:</label>
+            <input id="colsInput" type="number" value="28" min="1" max="100" class="w-12 text-xs border px-1" />
+          </div>
+
+          
+          
+          <div class="flex gap-2 mt-1">
+            <button id="gridResetBtn" class="text-xs border px-2 py-1 hover:bg-black hover:text-white">Reset</button>
+            <button id="gridApplyBtn" class="text-xs border px-2 py-1 hover:bg-black hover:text-white">Apply</button>
+          </div>
+        </div>
+        
+
+        
+         <!-- Color Palette -->
+         <p class="uppercase text-xs mt-4">[Box Color]</p>
+         <div id="colorPalette" class="grid grid-cols-5 gap-1 mt-2"></div>
+
+         
+         
+         <!-- 사용자 지정 색상 5가지 -->
+         <div class="flex items-center gap-2 mt-2">
+           <label for="color1" class="text-xs">[Color selection]</label>
+           <input type="color" id="color1" value="#A0E15A" class="color-picker w-6 h-6" />
+       
+         </div>
+         <br>
+         <p class="uppercase text-xs">패턴[Pattern]</p>
+         <ul class="custom-checkbox" id="consonantList">
+         <li>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/semo.png"><span class="fake-box"></span>▲</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/namo.png"><span class="fake-box"></span>■</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/won.png"><span class="fake-box"></span>●</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/heart.png"><span class="fake-box"></span>♥︎</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/star.png" ><span class="fake-box"></span>★</label>
+          <p class="uppercase text-xs">랜덤 패턴[Random Pattern]</p>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/1.1.png"><span class="fake-box"></span>?</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/2.2.png" ><span class="fake-box"></span>?</label>
+          <label class="checkbox-wrapper"><input type="checkbox" data-img="./img/3.3.png" ><span class="fake-box"></span>?</label>
+
+        </li>
+        </ul>
+
+        <br>
+        <p class="uppercase text-xs">자음[Consonants]</p>
+        <ul class="custom-checkbox" id="consonantList">
+
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㄱ.png"><span class="fake-box"></span>ㄱ – giyeok</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㄴ.png"><span class="fake-box"></span>ㄴ – nieun</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㄷ.png"><span class="fake-box"></span>ㄷ – digeut</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㄹ.png"><span class="fake-box"></span>ㄹ – rieul</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅁ.png"><span class="fake-box"></span>ㅁ – mieum</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅂ.png"><span class="fake-box"></span>ㅂ – bieup</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅅ.png"><span class="fake-box"></span>ㅅ – siot</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅇ.png"><span class="fake-box"></span>ㅇ – ieung</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅈ.png"><span class="fake-box"></span>ㅈ – jieut</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅊ.png"><span class="fake-box"></span>ㅊ – chieut</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅋ.png"><span class="fake-box"></span>ㅋ – kieuk</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅌ.png"><span class="fake-box"></span>ㅌ – tieut</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅍ.png"><span class="fake-box"></span>ㅍ – pieup</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅎ.png"><span class="fake-box"></span>ㅎ – hieut</label></li>
+     
+        </ul>
+        <br>
+        <p class="uppercase text-xs mt-4">모음 [Vowels]</p>
+        <ul class="custom-checkbox" id="vowelList">
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅏ.png" ><span class="fake-box"></span>ㅏ – a</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅑ.png"><span class="fake-box"></span>ㅑ – ya</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅓ.png"><span class="fake-box"></span>ㅓ – eo</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅕ.png"><span class="fake-box"></span>ㅕ – yeo</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅗ.png"><span class="fake-box"></span>ㅗ – o</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅛ.png"><span class="fake-box"></span>ㅛ – yo</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅜ.png"><span class="fake-box"></span>ㅜ – u</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅠ.png"><span class="fake-box"></span>ㅠ – yu</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅡ.png"><span class="fake-box"></span>ㅡ – eu</label></li>
+          <li><label class="checkbox-wrapper"><input type="checkbox" data-img="./img/ㅣ.png"><span class="fake-box"></span>ㅣ – i</label></li>
+        </ul>
+          <br>
+          <p class="uppercase text-xs mt-4">숫자 [Number]</p>
+          <ul class="custom-checkbox grid grid-cols-5 gap-2 mt-2">
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/0.png"><span class="fake-box"></span>0</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/1.png"><span class="fake-box"></span>1</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/2.png"><span class="fake-box"></span>2</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/3.png"><span class="fake-box"></span>3</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/4.png"><span class="fake-box"></span>4</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/5.png"><span class="fake-box"></span>5</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/6.png"><span class="fake-box"></span>6</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/7.png"><span class="fake-box"></span>7</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/8.png"><span class="fake-box"></span>8</label></li>
+            <li><label class="checkbox-wrapper"><input type="checkbox"  data-img="./img/9.png"><span class="fake-box"></span>9</label></li>
+          </ul>
+          
+          
+ 
+
+      </div>
+      <div class="mt-4">
+        <button id="exportFullPdf" class="bg-black text-white text-sm px-4 py-2 rounded">PDF→</button>
+      </div>
+    </aside>
+
+
+
+   <!-- Main Section -->
+   <main class="relative flex flex-col items-center justify-center text-center p-4 space-y-6">
+    <div id="symbolDisplay" class="relative w-full h-[80vh] overflow-hidden"></div>
+    <h1 class="text-6xl font-bold tracking-widest">Hangul Tool</h1>
+    <p class="text-xs">Select and adjust effect</p>
+  </main>
+   <!-- Canvas Area -->
+    <main class="flex items-center justify-center bg-white overflow-auto">
+      <svg id="gridCanvas" xmlns="http://www.w3.org/2000/svg" class="border border-black" width="600" height="600"></svg>
+    </main>
+  </div>
+
+</div>
+
+
+
+
+</main>
+
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

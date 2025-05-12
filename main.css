@@ -1,0 +1,51 @@
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #ffff;
+  }
+  .custom-checkbox {
+    list-style: none;
+    padding: 0;
+  }
+  .custom-checkbox li {
+    font-family: monospace;
+  }
+  .checkbox-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  .checkbox-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .fake-box {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 1px solid black;
+    text-align: center;
+    line-height: 1em;
+    margin-right: 0.3em;
+  }
+  .checkbox-wrapper input[type="checkbox"]:checked + .fake-box::before {
+    content: "\2713";
+    font-size: 0.8em;
+  }
+  .draggable {
+    position: absolute;
+    cursor: move;
+  }
+  .resizer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #000;
+    cursor: nwse-resize;
+  }
+
+  
+
+
+  
